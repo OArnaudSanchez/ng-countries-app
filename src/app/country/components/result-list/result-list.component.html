@@ -1,0 +1,60 @@
+<section class="mt-5">
+    <table class="table table-md mt-2 w-full">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Icono</th>
+                <th>Bandera</th>
+                <th>Nombre</th>
+                <th>Capital</th>
+                <th>Población</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- TODO: Implement pagination => country-list-pagination -->
+            @for(country of countries(); track country.code; let index = $index;){
+                <tr>
+                    <td>{{ index + 1 }}</td>
+                    <td>
+                        <img class="w-5 rounded-2xl" [src]="country.icon" [alt]="country.flagAlt">
+                    </td>
+                    <td>
+                        <img [src]="country.flag" [alt]="country.flagAlt" class="w-15">
+                    </td>
+                    <td>{{ country.name }}</td>
+                    <td>{{ country.capital }}</td>
+                    <td>
+                        <span class="badge badge-secondary">{{ country.population | number }}</span>
+                    </td>
+                    <td>
+                        <a [routerLink]="['/country/by', country.code]" class="link-primary cursor-pointer flex">
+                            <span class="px-1">
+                                Mas información
+                            </span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" d="M20.991 3.009L3.001 21m16.93-2.081c-.786-.786-1.183-2.737-1.382-4.51c-.258-2.282-.159-4.6.381-6.834c.404-1.673 1.056-3.543 2.07-4.557M5.081 4.07c.786.785 2.737 1.182 4.51 1.381c2.282.258 4.6.159 6.834-.381c1.673-.404 3.543-1.056 4.557-2.07" stroke-width="1"/></svg>
+                        </a>
+                    </td>
+                </tr>
+            }
+
+            @if(errorMessage()){
+                <tr>
+                    <td colspan="8" class="text-center">{{ errorMessage() }}</td>
+                </tr>
+            }
+
+            @if(countries().length === 0 && !isLoading()){
+                <tr>
+                    <td colspan="8" class="text-center">No se encontraron resultados</td>
+                </tr>
+            }
+
+            @if(isLoading()){
+                <tr>
+                    <td colspan="8" class="text-center">Buscando Paises....</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</section>

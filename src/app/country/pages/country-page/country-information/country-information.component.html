@@ -1,0 +1,129 @@
+@let localCountry = country();
+
+<section class="mx-auto max-w-6xl px-6 py-10">
+  <!-- Header => country-information-header -->
+  <div class="flex flex-col md:flex-row items-center justify-between mb-8">
+    <div class="flex items-center gap-6">
+      <div class="avatar">
+        <div
+          class="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2"
+        >
+          <img [src]="localCountry.flag" [alt]="localCountry.flagAlt" />
+        </div>
+      </div>
+      <div>
+        <h1 class="text-4xl font-bold mb-1">{{ localCountry.name }}</h1>
+        <p class="text-sm text-gray-500">
+          {{ localCountry.translations!.spa!.official || localCountry.name }}
+        </p>
+      </div>
+    </div>
+
+    <div class="avatar mt-6 md:mt-0">
+      <div
+        class="w-24 rounded-full ring ring-secondary ring-offset-base-100 ring-offset-2"
+      >
+        <img [src]="localCountry.coatOfArms" alt="Coat of Arms" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats Section => country-information-stats -->
+  <div
+    class="stats stats-vertical lg:stats-horizontal shadow w-full bg-base-200"
+  >
+    <div class="stat">
+      <div class="stat-title">Área</div>
+      <div class="stat-value text-primary">
+        {{ localCountry.area | number }}
+      </div>
+      <div class="stat-desc">km²</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-title">Población</div>
+      <div class="stat-value text-secondary">
+        {{ localCountry.population | number }}
+      </div>
+      <div class="stat-desc">habitantes</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-title">Capital</div>
+      <div class="stat-value">{{ localCountry.capital }}</div>
+      <div class="stat-desc text-gray-400">Ciudad principal</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-title">Coordenadas</div>
+      <div class="stat-value text-info">
+        {{ localCountry.latitude | number : "1.2-2" }},
+        {{ localCountry.longitude | number : "1.2-2" }}
+      </div>
+      <div class="stat-desc">Lat / Long</div>
+    </div>
+  </div>
+
+  <!-- Additional Info => country-additional-information -->
+  <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="card bg-base-100 shadow-xl">
+      <div class="card-body">
+        <h2 class="card-title text-primary">Detalles</h2>
+        <ul class="list-disc ml-4 text-sm">
+          <li><strong>Continente:</strong> {{ localCountry.continent }}</li>
+          <li><strong>Subregión:</strong> {{ localCountry.subregion }}</li>
+          <li><strong>Zona horaria:</strong> {{ localCountry.timezone }}</li>
+          <li>
+            <strong>Códigos telefónicos:</strong> {{ localCountry.phoneCode }} -
+            {{ localCountry.phoneSuffixes }}
+          </li>
+          <li><strong>Dominio:</strong> {{ localCountry.domain }}</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card bg-base-100 shadow-xl">
+      <div class="card-body">
+        <h2 class="card-title text-secondary">Idioma y Moneda</h2>
+        <ul class="list-disc ml-4 text-sm">
+          <li><strong>Idiomas:</strong> {{ localCountry.language }}</li>
+          <li>
+            <strong>Moneda:</strong>
+            {{
+              localCountry.currencies
+                ? (localCountry.currencies | keyvalue)[0].key
+                : "-"
+            }}
+            ({{ (localCountry.currencies | keyvalue)[0].value.name }})
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- country-information-map -->
+  <div class="mt-10">
+    <div class="card bg-base-100 shadow-xl">
+      <div class="card-body">
+        <h2 class="card-title text-accent">Ubicación</h2>
+
+        <div class="mt-4 rounded-xl overflow-hidden border border-base-300">
+          <iframe
+            [src]="getMapEmbedUrl()"
+            width="100%"
+            height="400"
+            style="border: 0"
+            allowfullscreen
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            [title]="localCountry.name"
+          ></iframe>
+        </div>
+
+        <p class="text-sm text-gray-500 mt-3">
+          Mapa de {{ localCountry.name }}.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

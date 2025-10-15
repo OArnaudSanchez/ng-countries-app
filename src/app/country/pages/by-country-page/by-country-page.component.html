@@ -1,0 +1,11 @@
+<country-search-input placeholder="Buscar por pais" (emitValue)="searchCountry($event)" />
+
+@if(countryResource.error()){
+  <h3>{{ countryResource.error() }}</h3>
+}@else {
+    <country-result-list 
+      [countries]="countryResource.value() ?? []" 
+      [errorMessage]="errorMessage()"
+      [isEmpty]="countryResource.value.length === 0 || !countryResource.value"
+      [isLoading]="countryResource.isLoading()" />
+}

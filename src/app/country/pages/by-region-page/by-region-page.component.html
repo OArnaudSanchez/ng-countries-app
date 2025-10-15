@@ -1,0 +1,29 @@
+<section>
+  <div class="mb-2">
+    <h1 class="text-xl">Por región</h1>
+    <h3>Seleccione una región</h3>
+  </div>
+
+  <!-- country-button -->
+  @for(region of regions; track region;){
+    <a
+        routerLink="."
+        [queryParams]="{ region: region }"
+        class="btn btn-outline"
+        routerLinkActive="btn-primary"
+        >{{ region | titlecase }}</a
+    >
+  } 
+  
+  @if(countryResource.error()){
+    <h3>{{ countryResource.error() }}</h3>
+  } 
+  @else {
+    <country-result-list
+        [countries]="countryResource.value() ?? []"
+        [errorMessage]="errorMessage()"
+        [isEmpty]="countryResource.value.length === 0 || !countryResource.value"
+        [isLoading]="countryResource.isLoading()"
+    />
+  }
+</section>
