@@ -1,5 +1,6 @@
 <country-search-input
   placeholder="Buscar por capital"
+  [inputInitialValue]="queryParam"
   (emitValue)="searchCountry($event)"
 />
 

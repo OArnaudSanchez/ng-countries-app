@@ -1,5 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { ResultListComponent } from '../../components/result-list/result-list.component';
 import { SearchInputComponent } from '../../components/search-input/search-input.component';
@@ -14,7 +15,12 @@ import { CountryService } from '../../services/country.service';
 export class ByCountryPageComponent {
   
   private readonly countryService = inject(CountryService);
-  query = signal('');
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+
+  queryParam = this.activatedRoute.snapshot.queryParamMap.get('query') ?? '';
+
+  query = signal(this.queryParam);
 
   countryResource = rxResource({
     request: () => {
@@ -25,7 +31,7 @@ export class ByCountryPageComponent {
 
     loader: ({ request }) => {     
       if(!request.query) return of([]);
-      
+      this.router.navigate(['/country/by-country'], { queryParams: { query: request.query } });
       return this.countryService.searchByCountry(request.query);
     }
   });

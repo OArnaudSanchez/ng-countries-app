@@ -6,13 +6,7 @@
 
   <!-- country-button -->
   @for(region of regions; track region;){
-    <a
-        routerLink="."
-        [queryParams]="{ region: region }"
-        class="btn btn-outline"
-        routerLinkActive="btn-primary"
-        >{{ region | titlecase }}</a
-    >
+   <country-button [region]="region" />
   } 
   
   @if(countryResource.error()){

@@ -6,6 +6,7 @@
     autofocus
     [(ngModel)]="searchValue"
     (keyup.enter)="onEmitValue()"
+    (keyup)="inputValue.set(searchValue())"
   />
 
   <button class="btn btn-primary" (click)="onEmitValue()">Buscar</button>

@@ -12,8 +12,7 @@
             </tr>
         </thead>
         <tbody>
-            <!-- TODO: Implement pagination => country-list-pagination -->
-            @for(country of countries(); track country.code; let index = $index;){
+            @for(country of paginatedCountries(); track country.code; let index = $index;){
                 <tr>
                     <td>{{ index + 1 }}</td>
                     <td>
@@ -40,21 +39,26 @@
 
             @if(errorMessage()){
                 <tr>
-                    <td colspan="8" class="text-center">{{ errorMessage() }}</td>
+                    <td colspan="8" class="text-center text-gray-400 py-4">{{ errorMessage() }}</td>
                 </tr>
             }
-
+            
             @if(countries().length === 0 && !isLoading()){
                 <tr>
-                    <td colspan="8" class="text-center">No se encontraron resultados</td>
+                    <td colspan="8" class="text-center text-gray-400 py-4">No se encontraron resultados</td>
                 </tr>
             }
-
+            
             @if(isLoading()){
                 <tr>
-                    <td colspan="8" class="text-center">Buscando Paises....</td>
+                    <td colspan="8" class="text-center text-gray-400 py-4">Buscando Paises....</td>
                 </tr>
             }
         </tbody>
     </table>
+
+    @if(countries().length > 0){
+        <country-table-pagination [countries]="countries()" (countriesResult)="paginateCountries($event)" />
+    }
+     
 </section>

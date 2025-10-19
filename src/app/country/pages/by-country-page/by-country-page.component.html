@@ -1,4 +1,4 @@
-<country-search-input placeholder="Buscar por pais" (emitValue)="searchCountry($event)" />
+<country-search-input placeholder="Buscar por pais" (emitValue)="searchCountry($event)" [inputInitialValue]="queryParam" />
 
 @if(countryResource.error()){
   <h3>{{ countryResource.error() }}</h3>
